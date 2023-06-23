@@ -1,0 +1,2 @@
+move_robot:odom_pub:slam:teleop_twist_keyboard
+-DCATKIN_DEVEL_PREFIX=/home/shehab/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/shehab/catkin_ws/install -G Unix Makefiles

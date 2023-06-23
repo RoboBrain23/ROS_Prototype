@@ -1,0 +1,8 @@
+prefix=/home/shehab/catkin_ws/install
+
+Name: odom_pub
+Description: Description of odom_pub
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
