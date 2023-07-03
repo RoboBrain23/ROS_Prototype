@@ -1,0 +1,184 @@
+<?xml version='1.0'?>
+<robot name="car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!--Chassis/-->
+
+ <link name='chassis'>
+
+   <visual name='chassis_visual'>
+
+      <origin xyz="0 0 0" rpy=" 0 0 -1.5707"/>
+
+      <geometry>
+        <mesh filename="package://slam/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+ <material name="blue">
+     	<color rgba="0 0 0.8 1"/>
+    </material>
+<material name="blue"/>
+    </visual>    
+     
+
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="10.2233817613991"/>
+    <inertia ixx="2.348276" iyy="1.492584" izz="3.087891" ixy="-0.0" iyz="-0.015185" ixz="0.0"/>
+  </inertial>
+
+   <collision name='collision'>
+      <origin xyz="0 0 0" rpy=" 0 0 -1.5707"/>
+      <geometry>
+       <mesh filename="package://slam/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+   </collision>
+
+</link>
+
+
+<!-- ++++++++++++++++Left wheel+++++++++++++++++++++++++++++++ /-->
+
+
+<!--left wheel Joint /-->
+
+  <joint type="continuous" name="joint_left_wheel_chassis">
+    <origin xyz="-0.1 0.175 .037" rpy="0 0 0"/>
+    <child link="left_wheel"/>
+    <parent link="chassis"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+
+
+<!--left wheel Link /-->
+
+ <link name="left_wheel">
+
+    <visual name="left_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.075" length="0.05"/>
+      </geometry>
+      <material name="Black"/>
+    </visual>
+
+
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.075" length="0.05"/>
+      </geometry>
+    </collision>
+
+    
+
+   <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="4.953262743117052"/>
+    <inertia ixx="0.008949" iyy="0.005769" izz="0.005769" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+
+
+ </link>
+
+<!-- +++++++++++++++++++ Right Wheel +++++++++++++++++++++++++++++++++ /-->
+
+<!--Right wheel joint/-->
+  <joint type="continuous" name="joint_right_wheel_chassis">
+
+    <origin xyz="-.1 -0.175 0.037" rpy="0 0 0"/>
+    
+    <child link="right_wheel"/>
+    <parent link="chassis"/>
+
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+
+    <limit effort="100" velocity="100"/>
+
+    <joint_properties damping="0.0" friction="0.0"/>
+
+  </joint>
+
+<!--Right Wheel link /-->
+
+  <link name="right_wheel">
+
+    <visual name="right_wheel_visual">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.075" length="0.05"/>
+      </geometry>
+       <material name="Black"/>
+    </visual>
+
+    
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
+      <geometry>
+        <cylinder radius="0.075" length="0.05"/>
+      </geometry>
+    </collision>
+
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="4.953262743117053"/>
+    <inertia ixx="0.008949" iyy="0.005769" izz="0.005769" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+
+  </link>
+
+<!-- ++++++++++++++++++  Kinect  +++++++++++++++++++++++++++++ /-->
+<!--kinect joint /-->
+
+<joint name="joint_kinect_chassis" type="fixed">
+    <origin xyz=".1 0 .2" rpy="0 0 0"/>
+    <parent link="chassis"/>
+    <child link="kinect"/>
+</joint>
+
+
+<!--Kinect  Link /-->
+
+<link name="kinect">
+ <visual>
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <geometry>
+      <mesh filename="package://mybot_description/meshes/kinect.dae"/>
+      </geometry>
+       
+ </visual>
+    
+
+ <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+    <box size="0.1 0.1 0.1"/>
+    </geometry>
+ </collision>
+
+ <inertial>
+     <mass value="1e-5" />
+     <origin xyz="0 0 0" rpy="0 0 0"/>
+     <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+ </inertial>
+</link>
+
+
+
+<!--  Kinect Optical Link and joints   /-->
+
+<joint name="joint_kinect_link" type="fixed">
+<origin xyz="0 0 0" rpy="-1.5707 0 -1.5707"/> <!-- To invert the coordinates from image convention (Z is forward) to normal xyz /-->
+<parent link="kinect"/>
+<child link="kinect_link"/>
+</joint>
+
+<!--Virtual link to project the images to, and then flip it to us as its joint is flipped  /-->
+<link name="kinect_link">
+</link>
+
+<xacro:include filename="$(find slam)/urdf/gazebo_plugins.urdf.xacro" />
+
+
+</robot>
