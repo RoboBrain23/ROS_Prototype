@@ -45,7 +45,7 @@ roslaunch slam gmapping.launch
 In a new terminal,   
 Run RVIZ : <br />
 ```
-cd catkin_ws/src/navros_pkg/rviz
+cd catkin_ws/src/slam/rviz
 rviz -d map.rviz
 ```
 
@@ -73,17 +73,17 @@ roslaunch slam gazebo.launch
 ```
 Run RVIZ :<br />
 ```
-cd catkin_ws/src/navros_pkg/rviz 
+cd catkin_ws/src/slam/rviz 
 rviz -d navigate.rviz
 ```
-Using amcl package for localization, `Run amcl.launch`. The amcl algorithm implements Monte Carlo localization for state estimation.
+Using the amcl package for localization, `Run amcl.launch`. The amcl algorithm implements Monte Carlo localization for state estimation.
 We will use amcl with a map built in the previous step. In the second part, we will create our map using the gmapping package and then use the resulting map for localization. <br />
 ```
-roslaunch navros_pkg amcl.launch map:='name_of_map'
+roslaunch slam amcl.launch map:='name_of_map'
 ```
 The move_base package implements an action that will attempt to reach it with a prototype base. This node links a global and local planner to accomplish its global navigation task. The move_base node also maintains two costmaps, one for the global planner and another for a local planner that are used to accomplish navigation tasks. `Run move_base.launch`.<br />
 ```
-roslaunch navros_pkg move_base.launch 
+roslaunch slam move_base.launch 
 ```
 
 
@@ -112,16 +112,16 @@ roslaunch slam gazebo.launch
 ```
 Run RVIZ :<br />
 ```
-cd catkin_ws/src/navros_pkg/rviz 
+cd catkin_ws/src/slam/rviz 
 rviz -d navigate.rviz
 ```
 Run `amcl.launch`, giving the name of the map you have created and saved: <br />
 ```
-roslaunch navros_pkg amcl.launch map:='name_of_map'
+roslaunch slam amcl.launch map:='name_of_map'
 ```
 Run move_base.launch :<br />
 ```
-roslaunch navros_pkg move_base.launch 
+roslaunch slam move_base.launch 
 ```
 Run the move_robot node that sends the goal to navigation-stack 
 ```
